@@ -46,7 +46,7 @@ port.on('data', function(data) {
   var timeval = time.getTime();
 
   //storge msg in db
-  dbi.insertMessage(time, data);
+  //dbi.insertMessage(time, data);
 
   //look for this line: 1-0:1.7.0(0000.52*kW)
   var match = currentUsageRE.exec(data);
