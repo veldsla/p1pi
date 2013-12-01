@@ -10,8 +10,9 @@ $(document).ready(function() {
     gaschart = new Highcharts.Chart({
         chart: {
             renderTo: 'gascontainer',
-            defaultSeriesType: 'spline',
+            //defaultSeriesType: 'spline',
 	    	zoomType: 'xy',
+			type: 'column'
         },
         title: {
             text: 'Gas verbruik afgelopen week'
