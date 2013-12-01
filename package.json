@@ -9,6 +9,7 @@
     "express": "3.x",
     "jade": "*",
     "sqlite3": "*",
-    "serialport": "*"
+    "serialport": "*",
+	"daemon":"*"
   }
 }
