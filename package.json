@@ -10,6 +10,7 @@
     "jade": "*",
     "sqlite3": "*",
     "serialport": "*",
+	"moment": "*",
 	"daemon":"*"
   }
 }
