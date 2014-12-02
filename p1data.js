@@ -15,27 +15,39 @@ var currentProdRE  = /^1-0:2.7.0\((\d+\.\d+)\*kW\)/m;
 //gas metingen
 //  0-1:24.3.0(121220200000)(00)(60)(1)(0-1:24.2.1)(m3)
 //  (00256.100)
-var gasRE = /^0-1:24.3.0\((\d{12})\).*\(m3\)[\s\S]+\((\d{5}\.\d{3})\)/m
+//
+//  dmsr 4
+//  0-1:24.2.1(141202200000W)(00777.483*m3)
+//  
+//var gasRE = /^0-1:24.3.0\((\d{12})\).*\(m3\)[\s\S]+\((\d{5}\.\d{3})\)/m
+var gasRE = /^0-1:24.2.1\((\d{12}).\)\((\d{5}\.\d{3})\*m3\)/m
 
-//de elec standen:
+//de elec standen: dmsr 3
 //1-0:1.8.1(00201.441*kWh) gebruik laag
 //1-0:1.8.2(00159.309*kWh) gebruik hoog
 //1-0:2.8.1(00000.000*kWh) prod laag
 //1-0:2.8.2(00000.000*kWh) prod hoog
+//
+//dmsr 4
+//1-0:1.8.1(000585.824*kWh)
+//1-0:2.8.1(000000.000*kWh)
+//1-0:1.8.2(000593.095*kWh)
+//1-0:2.8.2(000000.000*kWh)
+//
 var elecRE = {
-	uselaag: /^1-0:1.8.1\((\d{5}\.\d{3})\*kWh\)/m,
-	usehoog: /^1-0:1.8.2\((\d{5}\.\d{3})\*kWh\)/m,
-	prodlaag: /^1-0:2.8.1\((\d{5}\.\d{3})\*kWh\)/m,
-	prodhoog: /^1-0:2.8.2\((\d{5}\.\d{3})\*kWh\)/m,
+	uselaag: /^1-0:1.8.1\((\d{6}\.\d{3})\*kWh\)/m,
+	usehoog: /^1-0:1.8.2\((\d{6}\.\d{3})\*kWh\)/m,
+	prodlaag: /^1-0:2.8.1\((\d{6}\.\d{3})\*kWh\)/m,
+	prodhoog: /^1-0:2.8.2\((\d{6}\.\d{3})\*kWh\)/m,
 };
 
 
 
 
 var port = new SerialPort('/dev/ttyUSB0', {
-  baudRate: 9600,
-  dataBits: 7,
-  parity: 'even',
+  baudRate: 115200,
+  dataBits: 8,
+  parity: 'none',
   stopBits: 1,
   parser: serialport.parsers.readline("!")
 });
@@ -47,6 +59,7 @@ port.on('data', function(data) {
 
   //storge msg in db
   //dbi.insertMessage(time, data);
+  //console.log("data:", data);
 
   //look for this line: 1-0:1.7.0(0000.52*kW)
   var match = currentUsageRE.exec(data);
